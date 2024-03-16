@@ -19,7 +19,7 @@ public interface IScoreBoard
     /// <param name="id">Game unique identifier</param>
     /// <param name="homeTeamScore">New home team score</param>
     /// <param name="awayTeamScore">New away team score</param>
-    void UpdateScore(string id, int homeTeamScore, int awayTeamScore);
+    void UpdateScore(string id, uint homeTeamScore, uint awayTeamScore);
 
     /// <summary>
     /// Returns games in progress scores, ordered by summary score and time of creation

@@ -10,7 +10,7 @@ public sealed class ScoreBoard : IScoreBoard
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
-    public void UpdateScore(string id, int homeTeamScore, int awayTeamScore)
+    public void UpdateScore(string id, uint homeTeamScore, uint awayTeamScore)
     {
         throw new NotImplementedException();
     }
