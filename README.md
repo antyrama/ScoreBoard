@@ -2,8 +2,10 @@
 
 Simple library to manage games score board
 
-## Usage
+## Develop & run
+Open solution/folder in any IDE and run `Antyrama.ScoreBoard.ExampleApp` console application
 
+## Usage
 ``` c#
 var sequenceProvider = new DefaultSequenceProvider();
 var scoreBoard = new ScoreBoard(sequenceProvider);
@@ -31,3 +33,11 @@ var summary = scoreBoard.GetGames();
 * Not using concurent collections as starting game will always create a new game in a dictionary and updating score does not involve removing/adding items over collection
 * Exposed `ISequenceProvider` interface to make users able to provide their own solution, with assupmtion here - next value have to be always greater
 * Exposed `IScoreBoard` interface to allow easy mocking
+
+## Dependencies
+Library `Antyrama.ScoreBoard` does not use any other 3rd party dependencies, just pure framework and it's ready to be packed into nuGet package.
+
+Used in tests project:
+* [Fluent Assertions](https://github.com/fluentassertions/fluentassertions)
+* [Moq](https://github.com/devlooped/moq)
+* [Verify](https://github.com/VerifyTests/Verify)

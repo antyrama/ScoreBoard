@@ -89,4 +89,24 @@ public class ScoreBoardTests
         // assert
         await Verify(summary);
     }
+
+    [Fact]
+    public void ShouldThrowExceptionWhenGameNotFoundOnUpdateScore()
+    {
+        // arrange
+        var sut = new ScoreBoard(_sequenceProvider);
+
+        // act/assert
+        Assert.Throws<InvalidOperationException>(() => sut.UpdateScore(5, 0, 5));
+    }
+
+    [Fact]
+    public void ShouldThrowExceptionWhenGameNotFoundOnFinishGame()
+    {
+        // arrange
+        var sut = new ScoreBoard(_sequenceProvider);
+
+        // act/assert
+        Assert.Throws<InvalidOperationException>(() => sut.FinishGame(5));
+    }
 }

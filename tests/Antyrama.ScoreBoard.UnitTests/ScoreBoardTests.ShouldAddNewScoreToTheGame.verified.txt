@@ -1,7 +1,6 @@
 ﻿[
   {
-    Id: Guid_1,
-    CreatedAt: DateTime_1,
+    Id: 5,
     HomeTeam: {
       Name: Mexico,
       Score: 3
