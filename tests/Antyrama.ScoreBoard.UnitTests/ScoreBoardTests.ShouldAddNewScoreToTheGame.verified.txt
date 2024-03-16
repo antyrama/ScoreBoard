@@ -1,6 +1,5 @@
 ﻿[
   {
-    Id: 5,
     HomeTeam: {
       Name: Mexico,
       Score: 3

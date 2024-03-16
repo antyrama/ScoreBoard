@@ -1,6 +1,5 @@
 ﻿[
   {
-    Id: 7,
     HomeTeam: {
       Name: Mexico
     },

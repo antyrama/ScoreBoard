@@ -7,6 +7,7 @@ public sealed class ScoreBoard : IScoreBoard
 {
     private readonly ISequenceProvider _sequenceProvider;
     private readonly Dictionary<int, GameState> _gameStates = new();
+    private readonly object _lock = new();
 
     /// <summary>
     /// Creates instance of <see cref="ScoreBoard"/>
@@ -20,24 +21,27 @@ public sealed class ScoreBoard : IScoreBoard
     /// <inheritdoc cref="IScoreBoard"/>
     public int StartGame(string homeTeamName, string awayTeamName)
     {
-        var id = _sequenceProvider.GetNext();
-
-        var state = new GameState
+        lock (_lock)
         {
-            Id = id,
-            HomeTeam = new Team
-            {
-                Name = homeTeamName
-            },
-            AwayTeam = new Team
-            {
-                Name = awayTeamName
-            }
-        };
+            var id = _sequenceProvider.GetNext();
 
-        _gameStates.Add(id, state);
+            var state = new GameState
+            {
+                Id = id,
+                HomeTeam = new Team
+                {
+                    Name = homeTeamName
+                },
+                AwayTeam = new Team
+                {
+                    Name = awayTeamName
+                }
+            };
 
-        return state.Id;
+            _gameStates.Add(id, state);
+
+            return state.Id;
+        }
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
@@ -55,20 +59,26 @@ public sealed class ScoreBoard : IScoreBoard
     /// <inheritdoc cref="IScoreBoard"/>
     public IEnumerable<GameState> GetGames()
     {
-        return _gameStates.Values
-            .Order(ScoreCreationGameStateComparer.Instance)
-            .ToImmutableArray();
+        lock (_lock)
+        {
+            return _gameStates.Values
+                .Order(ScoreCreationGameStateComparer.Instance)
+                .ToImmutableArray();
+        }
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
     public void FinishGame(int id)
     {
-        if (!_gameStates.ContainsKey(id))
+        lock (_lock)
         {
-            throw new InvalidOperationException($"Game with [{id}] does not exist");
-        }
+            if (!_gameStates.ContainsKey(id))
+            {
+                throw new InvalidOperationException($"Game with [{id}] does not exist");
+            }
 
-        _gameStates.Remove(id);
+            _gameStates.Remove(id);
+        }
     }
 }
 

@@ -5,23 +5,11 @@ namespace Antyrama.ScoreBoard.UnitTests;
 
 public class ScoreBoardTests
 {
-    private readonly ISequenceProvider _sequenceProvider;
-    private static int _next;
-
-    public ScoreBoardTests()
-    {
-        var mock = new Mock<ISequenceProvider>();
-        mock.Setup(x => x.GetNext())
-            .Returns(() => _next++);
-
-        _sequenceProvider = mock.Object;
-    }
-
     [Fact]
     public async Task ShouldStartNewGame()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        var sut = new ScoreBoard(GetMock());
 
         // act
         sut.StartGame("Mexico", "Canada");
@@ -35,7 +23,7 @@ public class ScoreBoardTests
     public async Task ShouldAddNewScoreToTheGame()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        var sut = new ScoreBoard(GetMock());
         var gameId = sut.StartGame("Mexico", "Canada");
 
         // act
@@ -50,7 +38,7 @@ public class ScoreBoardTests
     public void ShouldFinishGame()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        var sut = new ScoreBoard(GetMock());
         var gameId = sut.StartGame("Mexico", "Canada");
 
         // act
@@ -65,7 +53,13 @@ public class ScoreBoardTests
     public async Task ShouldReturnSummaryWithCertainOrder()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        int next = 0;
+
+        var mock = new Mock<ISequenceProvider>();
+        mock.Setup(x => x.GetNext())
+            .Returns(() => next++);
+
+        var sut = new ScoreBoard(mock.Object);
 
         var gameId = sut.StartGame("Mexico", "Canada");
         sut.UpdateScore(gameId, 0, 5);
@@ -94,7 +88,7 @@ public class ScoreBoardTests
     public void ShouldThrowExceptionWhenGameNotFoundOnUpdateScore()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        var sut = new ScoreBoard(GetMock());
 
         // act/assert
         Assert.Throws<InvalidOperationException>(() => sut.UpdateScore(5, 0, 5));
@@ -104,9 +98,18 @@ public class ScoreBoardTests
     public void ShouldThrowExceptionWhenGameNotFoundOnFinishGame()
     {
         // arrange
-        var sut = new ScoreBoard(_sequenceProvider);
+        var sut = new ScoreBoard(GetMock());
 
         // act/assert
         Assert.Throws<InvalidOperationException>(() => sut.FinishGame(5));
+    }
+
+    private static ISequenceProvider GetMock()
+    {
+        var mock = new Mock<ISequenceProvider>();
+        mock.Setup(x => x.GetNext())
+            .Returns(() => 0);
+
+        return mock.Object;
     }
 }
