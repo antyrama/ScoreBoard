@@ -3,7 +3,7 @@
 Simple library to manage games score board
 
 ## Requirements
-Any machine with installed:
+Any machine/OS with installed:
 * .NET 7.0 SDK
 * .NET 8.0 SDK
 
