@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antyrama.ScoreBoard", "src\Antyrama.ScoreBoard\Antyrama.ScoreBoard.csproj", "{5C259711-CBC1-4A8D-8D70-C14D03F3CC3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F7C76F49-A0D2-42B8-82CA-21956EACBBBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antyrama.ScoreBoard.UnitTests", "tests\Antyrama.ScoreBoard.UnitTests\Antyrama.ScoreBoard.UnitTests.csproj", "{5CC7A222-D33F-4780-8596-0EAB98B5268F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C259711-CBC1-4A8D-8D70-C14D03F3CC3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C259711-CBC1-4A8D-8D70-C14D03F3CC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C259711-CBC1-4A8D-8D70-C14D03F3CC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C259711-CBC1-4A8D-8D70-C14D03F3CC3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC7A222-D33F-4780-8596-0EAB98B5268F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC7A222-D33F-4780-8596-0EAB98B5268F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC7A222-D33F-4780-8596-0EAB98B5268F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC7A222-D33F-4780-8596-0EAB98B5268F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5CC7A222-D33F-4780-8596-0EAB98B5268F} = {F7C76F49-A0D2-42B8-82CA-21956EACBBBB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {115312E4-4747-443A-9828-087E0CEDBDDD}
+	EndGlobalSection
+EndGlobal

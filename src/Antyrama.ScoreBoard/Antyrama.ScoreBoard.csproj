@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <IsPackable>true</IsPackable>
+        <PackageId>Antyrama.ScoreBoard</PackageId>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/antyrama/ScoreBoard</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+        <Description>Simple library to handle score board operations</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageTags>scoreBoard</PackageTags>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>
