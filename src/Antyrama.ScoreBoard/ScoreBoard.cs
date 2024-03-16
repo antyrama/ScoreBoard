@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Concurrent;
+using System.Collections.Immutable;
 
 namespace Antyrama.ScoreBoard;
 
@@ -6,7 +7,7 @@ namespace Antyrama.ScoreBoard;
 public sealed class ScoreBoard : IScoreBoard
 {
     private readonly ISequenceProvider _sequenceProvider;
-    private readonly Dictionary<int, GameState> _gameStates = new();
+    private readonly ConcurrentDictionary<int, GameState> _gameStates = new();
     private readonly object _lock = new();
 
     /// <summary>
@@ -21,27 +22,24 @@ public sealed class ScoreBoard : IScoreBoard
     /// <inheritdoc cref="IScoreBoard"/>
     public int StartGame(string homeTeamName, string awayTeamName)
     {
-        lock (_lock)
+        var id = _sequenceProvider.GetNext();
+
+        var state = new GameState
         {
-            var id = _sequenceProvider.GetNext();
-
-            var state = new GameState
+            Id = id,
+            HomeTeam = new Team
             {
-                Id = id,
-                HomeTeam = new Team
-                {
-                    Name = homeTeamName
-                },
-                AwayTeam = new Team
-                {
-                    Name = awayTeamName
-                }
-            };
+                Name = homeTeamName
+            },
+            AwayTeam = new Team
+            {
+                Name = awayTeamName
+            }
+        };
 
-            _gameStates.Add(id, state);
+        _gameStates.TryAdd(id, state);
 
-            return state.Id;
-        }
+        return state.Id;
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
@@ -59,26 +57,20 @@ public sealed class ScoreBoard : IScoreBoard
     /// <inheritdoc cref="IScoreBoard"/>
     public IEnumerable<GameState> GetGames()
     {
-        lock (_lock)
-        {
-            return _gameStates.Values
-                .Order(ScoreCreationGameStateComparer.Instance)
-                .ToImmutableArray();
-        }
+        return _gameStates.Values
+            .Order(ScoreCreationGameStateComparer.Instance)
+            .ToImmutableArray();
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
     public void FinishGame(int id)
     {
-        lock (_lock)
+        if (!_gameStates.TryGetValue(id, out var state))
         {
-            if (!_gameStates.ContainsKey(id))
-            {
-                throw new InvalidOperationException($"Game with [{id}] does not exist");
-            }
-
-            _gameStates.Remove(id);
+            throw new InvalidOperationException($"Game with [{id}] does not exist");
         }
+
+        _gameStates.TryRemove(new KeyValuePair<int, GameState>(id, state));
     }
 }
 

@@ -36,9 +36,7 @@ var summary = scoreBoard.GetGames();
 ```
 
 ## Remarks
-* Models are partially mutable, in result I wasn't able to use sorted collections to keep board sorted in a certain way
-* Not using concurent collections as this will not be enough in that case, as method to get all games could throw an exception during dictionary mutation
-* Bodies of methods `StartGame()`, `FinishGame` and `GetGames` in class `ScoreBoard` have been wrapped in `lock()` statement
+* Models are partially mutable, in result I wasn't able to use sorted collections to keep board sorted in a certain way, but gain on performance when updating score
 * Exposed `ISequenceProvider` interface to make users able to provide their own solution, with assupmtion here - next value have to be always greater
 * Exposed `IScoreBoard` interface to allow easy mocking
 

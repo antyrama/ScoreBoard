@@ -55,7 +55,7 @@ public class ScoreBoardConcurrencyTests
     }
 
     [Fact]
-    public void ShouldStartAndGamesAndGetGamesInAConcurrentWay()
+    public void ShouldStartGamesAndGetGamesInAConcurrentWay()
     {
         // arrange
         var sut = new ScoreBoard(_sequenceProvider);
