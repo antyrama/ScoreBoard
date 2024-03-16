@@ -2,6 +2,13 @@
 
 Simple library to manage games score board
 
+## Requirements
+Any machine with installed:
+* .NET 7.0 SDK
+* .NET 8.0 SDK
+
+[Download .NET SDKs for Visual Studio](https://dotnet.microsoft.com/en-us/download/visual-studio-sdks)
+
 ## Develop & run
 Open solution/folder in any IDE and run `Antyrama.ScoreBoard.ExampleApp` console application
 
