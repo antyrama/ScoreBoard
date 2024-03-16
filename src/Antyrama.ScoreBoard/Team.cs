@@ -17,7 +17,7 @@ public sealed class Team
     /// <summary>
     /// Score of the team
     /// </summary>
-    public uint Score { get; init; } = default!;
+    public uint Score { get; internal set; } = default!;
 
     /// <inheritdoc cref="object"/>
     public override bool Equals(object? obj)

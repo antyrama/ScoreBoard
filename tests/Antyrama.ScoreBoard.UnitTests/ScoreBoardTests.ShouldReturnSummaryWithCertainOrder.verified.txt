@@ -1,0 +1,55 @@
+﻿[
+  {
+    Id: 3,
+    HomeTeam: {
+      Name: Uruguay,
+      Score: 6
+    },
+    AwayTeam: {
+      Name: Italy,
+      Score: 6
+    }
+  },
+  {
+    Id: 1,
+    HomeTeam: {
+      Name: Spain,
+      Score: 10
+    },
+    AwayTeam: {
+      Name: Brazil,
+      Score: 2
+    }
+  },
+  {
+    HomeTeam: {
+      Name: Mexico
+    },
+    AwayTeam: {
+      Name: Canada,
+      Score: 5
+    }
+  },
+  {
+    Id: 4,
+    HomeTeam: {
+      Name: Argentina,
+      Score: 3
+    },
+    AwayTeam: {
+      Name: Australia,
+      Score: 1
+    }
+  },
+  {
+    Id: 2,
+    HomeTeam: {
+      Name: Germany,
+      Score: 2
+    },
+    AwayTeam: {
+      Name: France,
+      Score: 2
+    }
+  }
+]

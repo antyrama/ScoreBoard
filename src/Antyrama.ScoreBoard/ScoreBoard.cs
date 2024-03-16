@@ -1,29 +1,89 @@
-﻿namespace Antyrama.ScoreBoard;
+﻿using System.Collections.Immutable;
+
+namespace Antyrama.ScoreBoard;
 
 /// <inheritdoc cref="IScoreBoard"/>
 public sealed class ScoreBoard : IScoreBoard
 {
-    /// <inheritdoc cref="IScoreBoard"/>
-    public string StartGame(string homeTeamName, string awayTeamName)
+    private readonly ISequenceProvider _sequenceProvider;
+    private readonly Dictionary<int, GameState> _gameStates = new();
+
+    /// <summary>
+    /// Creates instance of <see cref="ScoreBoard"/>
+    /// </summary>
+    /// <param name="sequenceProvider">Instance of implementation of <see cref="ISequenceProvider"/></param>
+    public ScoreBoard(ISequenceProvider sequenceProvider)
     {
-        throw new NotImplementedException();
+        _sequenceProvider = sequenceProvider;
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
-    public void UpdateScore(string id, uint homeTeamScore, uint awayTeamScore)
+    public int StartGame(string homeTeamName, string awayTeamName)
     {
-        throw new NotImplementedException();
+        var id = _sequenceProvider.GetNext();
+
+        var state = new GameState
+        {
+            Id = id,
+            HomeTeam = new Team
+            {
+                Name = homeTeamName
+            },
+            AwayTeam = new Team
+            {
+                Name = awayTeamName
+            }
+        };
+
+        _gameStates.Add(id, state);
+
+        return state.Id;
+    }
+
+    /// <inheritdoc cref="IScoreBoard"/>
+    public void UpdateScore(int id, uint homeTeamScore, uint awayTeamScore)
+    {
+        if (!_gameStates.TryGetValue(id, out var state))
+        {
+            throw new InvalidOperationException($"Game with [{id}] does not exist");
+        }
+
+        state.HomeTeam.Score = homeTeamScore;
+        state.AwayTeam.Score = awayTeamScore;
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
     public IEnumerable<GameState> GetGames()
     {
-        throw new NotImplementedException();
+        return _gameStates.Values
+            .Order(ScoreCreationGameStateComparer.Instance)
+            .ToImmutableArray();
     }
 
     /// <inheritdoc cref="IScoreBoard"/>
-    public void FinishGame(string id)
+    public void FinishGame(int id)
     {
-        throw new NotImplementedException();
+        if (!_gameStates.ContainsKey(id))
+        {
+            throw new InvalidOperationException($"Game with [{id}] does not exist");
+        }
+
+        _gameStates.Remove(id);
+    }
+}
+
+internal sealed class ScoreCreationGameStateComparer : IComparer<GameState>
+{
+    public static readonly ScoreCreationGameStateComparer Instance = new();
+
+    public int Compare(GameState? x, GameState? y)
+    {
+        var scoreResult = y!.OverallScore.CompareTo(x!.OverallScore);
+        if (scoreResult == 0)
+        {
+            return y.Id.CompareTo(x.Id);
+        }
+
+        return scoreResult;
     }
 }

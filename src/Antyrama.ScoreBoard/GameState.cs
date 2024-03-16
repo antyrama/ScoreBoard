@@ -12,12 +12,7 @@ public sealed class GameState
     /// <summary>
     /// Unique identifier of game
     /// </summary>
-    public string Id { get; init; } = default!;
-
-    /// <summary>
-    /// Indicates time of creation a game
-    /// </summary>
-    public DateTime CreatedAt { get; init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// A home team
@@ -28,4 +23,6 @@ public sealed class GameState
     /// An away team
     /// </summary>
     public Team AwayTeam { get; init; } = default!;
+
+    internal uint OverallScore => HomeTeam.Score + AwayTeam.Score;
 }

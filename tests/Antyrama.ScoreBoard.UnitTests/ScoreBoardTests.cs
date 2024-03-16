@@ -1,21 +1,32 @@
 using FluentAssertions;
+using Moq;
 
 namespace Antyrama.ScoreBoard.UnitTests;
 
 public class ScoreBoardTests
 {
+    private readonly ISequenceProvider _sequenceProvider;
+    private static int _next;
+
+    public ScoreBoardTests()
+    {
+        var mock = new Mock<ISequenceProvider>();
+        mock.Setup(x => x.GetNext())
+            .Returns(() => _next++);
+
+        _sequenceProvider = mock.Object;
+    }
+
     [Fact]
     public async Task ShouldStartNewGame()
     {
         // arrange
-        var sut = new ScoreBoard();
+        var sut = new ScoreBoard(_sequenceProvider);
 
         // act
-        var gameId = sut.StartGame("Mexico", "Canada");
+        sut.StartGame("Mexico", "Canada");
 
         // assert
-        gameId.Should().NotBeNullOrWhiteSpace();
-
         var summary = sut.GetGames();
         await Verify(summary);
     }
@@ -24,7 +35,7 @@ public class ScoreBoardTests
     public async Task ShouldAddNewScoreToTheGame()
     {
         // arrange
-        var sut = new ScoreBoard();
+        var sut = new ScoreBoard(_sequenceProvider);
         var gameId = sut.StartGame("Mexico", "Canada");
 
         // act
@@ -39,7 +50,7 @@ public class ScoreBoardTests
     public void ShouldFinishGame()
     {
         // arrange
-        var sut = new ScoreBoard();
+        var sut = new ScoreBoard(_sequenceProvider);
         var gameId = sut.StartGame("Mexico", "Canada");
 
         // act
@@ -54,8 +65,8 @@ public class ScoreBoardTests
     public async Task ShouldReturnSummaryWithCertainOrder()
     {
         // arrange
-        var sut = new ScoreBoard();
-        
+        var sut = new ScoreBoard(_sequenceProvider);
+
         var gameId = sut.StartGame("Mexico", "Canada");
         sut.UpdateScore(gameId, 0, 5);
 
